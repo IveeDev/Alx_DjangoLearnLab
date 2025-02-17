@@ -9,7 +9,10 @@ from relationship_app.models import Author, Library, Book, Librarian
 
 def get_books_by_author(author_name):
     author = Author.objects.get(name=author_name)
-    return author.book_set.all()
+    book = Book.objects.filter(author=author)
+    return book
+    # return author.book_set.all()
+    
     
    
 
