@@ -5,7 +5,7 @@ from .models import Book
 # Create your views here.
 
 # Function Base View For Listing all books
-def book_list(request):
+def list_books(request):
     books = Book.objects.all()
     context = {'book_list': books}
     return render(request, 'relationship_app/list_books.html', context)
