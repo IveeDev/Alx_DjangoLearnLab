@@ -1,14 +1,25 @@
 from django.urls import path
 from .views import LibraryDetailView
 from .views import list_books
-from django.contrib.auth.views import LoginView, LogoutView
-from .views import SignupView
+from django.contrib.auth.views import LoginView 
+from django.contrib.auth.views import LogoutView
+from django.contrib.auth import views as auth_views
+from .views import SignupView, register, user_login, user_logout
 
 urlpatterns = [
     path('books/', list_books, name='list_books'),
     path('libraries/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),
-    path('register/', SignupView.as_view(), name='register'),
-    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
+    
+    # Class Base View
+    # path('register/', SignupView.as_view(), name='register'), 
+    # path('login/', LoginView.as_view(template_name='login.html'), name='login'), 
+    # path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'), 
+    
+    
+    # Function Based Views
+    path("register/", register, name="register"),
+    path("login/", user_login, name="login"),
+    path("register/", user_logout, name="logout"),
+    path("", auth_views.TemplateView.as_view(template_name="home.html"), name="home")  # Home page
 ]
 
