@@ -4,7 +4,7 @@ from .views import list_books
 from django.contrib.auth.views import LoginView 
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import views as auth_views
-from .views import SignupView, register, user_login, user_logout
+from . import views      # SignupView, register, user_login, user_logout
 
 urlpatterns = [
     path('books/', list_books, name='list_books'),
@@ -17,9 +17,9 @@ urlpatterns = [
     
     
     # Function Based Views
-    path("register/", register, name="register"),
-    path("login/", user_login, name="login"),
-    path("register/", user_logout, name="logout"),
+    path("register/", views.register, name="register"),
+    path("login/", views.user_login, name="login"),
+    path("register/", views.user_logout, name="logout"),
     path("", auth_views.TemplateView.as_view(template_name="home.html"), name="home")  # Home page
 ]
 
