@@ -23,10 +23,10 @@ class LibraryDetailView(DetailView):
     
 
 # User Registration Class base View    
-class SignupView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "register.html"
+# class SignupView(CreateView):
+#     form_class = UserCreationForm
+#     success_url = reverse_lazy("login")
+#     template_name = "register.html"
     
 
 # class CustomLoginView(LoginView):
@@ -36,7 +36,7 @@ class SignupView(CreateView):
 #     template_name = 'logout.html'
 
 # User Registration Function base View
-def register(request):
+def register_view(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -46,11 +46,11 @@ def register(request):
     
     else:
         form = UserCreationForm()
-        return render(request, "registration_app/register.html", {"form": form})
+        return render(request, "relationship_app/register.html", {"form": form})
     
 
 # User Login View (Django provides an authentication form)
-def user_login(request):
+def login_view(request):
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -63,6 +63,6 @@ def user_login(request):
         return render(request, "registration_app/login.html", {"form": form})  
     
 
-def user_logout(request):
+def logout_view(request):
     logout(request)
     return redirect("login")
