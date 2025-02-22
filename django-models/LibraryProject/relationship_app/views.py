@@ -46,7 +46,7 @@ def register(request):
     
     else:
         form = UserCreationForm()
-        return render(request, "register.html", {"form": form})
+        return render(request, "registration/register.html", {"form": form})
     
 
 # User Login View (Django provides an authentication form)
@@ -60,7 +60,7 @@ def user_login(request):
     
     else:
         form = AuthenticationForm()
-        return render(request, "login.html", {"form": form})  
+        return render(request, "registration/login.html", {"form": form})  
     
 
 def user_logout(request):
