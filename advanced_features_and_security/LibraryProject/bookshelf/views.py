@@ -1,4 +1,10 @@
 from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required, permission_required
+from .forms import ExampleForm
+from .forms import BookSearchForm 
 
 # Create your views here.
 from django.contrib.auth.decorators import permission_required
@@ -35,3 +41,17 @@ def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     book.delete()
     return render("request")
+
+
+# New View: Example Form Handling
+@login_required
+def example_form_view(request):
+    # This view explicitly uses ExampleForm
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Do something with the form data
+            return redirect('example_success')
+    else:
+        form = ExampleForm()
+    return render(request, 'bookshelf/example_form.html', {'form': form})
