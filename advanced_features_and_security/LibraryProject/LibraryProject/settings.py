@@ -139,28 +139,16 @@ AUTH_USER_MODEL = "bookshelf.CustomUser"
 
 
 # Security headers
-
-# Browser-side security
-SECURE_BROWSER_XSS_FILTER = True  # Prevents cross-site scripting
-X_FRAME_OPTIONS = 'DENY'  # Prevents clickjacking
-SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME-type confusion attacks
-
-# Cookie Security
-CSRF_COOKIE_SECURE = True  # Ensures CSRF cookies are only sent over HTTPS
-SESSION_COOKIE_SECURE = True  # Ensures session cookies are only sent over HTTPS
-CSRF_COOKIE_HTTPONLY = True  # Prevents JavaScript access to CSRF cookies
-SESSION_COOKIE_HTTPONLY = True  # Prevents JavaScript access to session cookies
-
-
-# Enforce HTTPS
-SECURE_SSL_REDIRECT = True  # Redirects all HTTP requests to HTTPS
-
-# Prevents loading of malicious content and reduces XSS risks
-CSP_DEFAULT_SRC = ("'self'",)  # Only load resources from this domain
-CSP_SCRIPT_SRC = ("'self'", 'https://trusted-scripts.com')  # Trusted sources for scripts
-CSP_STYLE_SRC = ("'self'", 'https://trusted-styles.com')  # Trusted sources for styles
-CSP_IMG_SRC = ("'self'", 'data:', 'https://trusted-images.com')  # Trusted sources for images
-
-
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SECURE = True  # Ensures CSRF cookie is only sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensures session cookie is only sent over HTTPS
 SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+HTTP_X_FORWARDED_PROTO = True
+
