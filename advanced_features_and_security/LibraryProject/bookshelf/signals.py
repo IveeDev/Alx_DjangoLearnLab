@@ -6,15 +6,15 @@ from .models import Article
 
 @receiver(post_migrate)
 def create_groups_and_permissions(sender, **kwargs):
-    if sender.name == "users":
+    if sender.name == "book":
         content_type = ContentType.objects.get_for_model(Article)
 
         # Define permissions
         permissions = {
-            "can_view": "Can view articles",
-            "can_create": "Can create articles",
-            "can_edit": "Can edit articles",
-            "can_delete": "Can delete articles",
+            "can_view": "Can view books",
+            "can_create": "Can create books",
+            "can_edit": "Can edit books",
+            "can_delete": "Can delete books",
         }
 
         # Create or update groups

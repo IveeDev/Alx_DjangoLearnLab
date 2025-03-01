@@ -4,34 +4,34 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseForbidden
-from .models import Article
+from .models import Article, Book
 
-@permission_required("users.can_view", raise_exception=True)
-def article_list(request):
+@permission_required("bookshelf.can_view", raise_exception=True)
+def book_list(request):
     """View all articles."""
-    articles = Article.objects.all()
-    return render(request, "users/article_list.html", {"articles": articles})
+    books = Book.objects.all()
+    return render(request)
 
-@permission_required("users.can_create", raise_exception=True)
-def create_article(request):
+@permission_required("bookshelf.can_create", raise_exception=True)
+def create_book(request):
     """Create an article (requires can_create permission)."""
     if request.method == "POST":
         # Handle article creation logic
         pass
-    return render(request, "users/create_article.html")
+    return render(request)
 
-@permission_required("users.can_edit", raise_exception=True)
-def edit_article(request, article_id):
+@permission_required("bookshelf.can_edit", raise_exception=True)
+def edit_book(request, book_id):
     """Edit an article (requires can_edit permission)."""
-    article = get_object_or_404(Article, id=article_id)
+    book = get_object_or_404(Book, id=book_id)
     if request.method == "POST":
         # Handle article editing logic
         pass
-    return render(request, "users/edit_article.html", {"article": article})
+    return render(request)
 
-@permission_required("users.can_delete", raise_exception=True)
-def delete_article(request, article_id):
+@permission_required("bookshelf.can_delete", raise_exception=True)
+def delete_book(request, book_id):
     """Delete an article (requires can_delete permission)."""
-    article = get_object_or_404(Article, id=article_id)
-    article.delete()
-    return render(request, "users/article_deleted.html")
+    book = get_object_or_404(Book, id=book_id)
+    book.delete()
+    return render("request")
