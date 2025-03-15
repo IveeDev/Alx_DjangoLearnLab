@@ -10,12 +10,4 @@ django = "*"
 
 [requires]
 python_version = "3.12"
-
-
-
-select * from customer;
-
-queryset = customer.objects.all()
-
-alibaba/v1/products
-alibaba/v1/products/2
+python_full_version = "3.12.3"
