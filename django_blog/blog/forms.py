@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Comment, Post, Tag
-from taggit.forms import TagField
+from taggit.forms import TagField, TagWidget
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -23,7 +23,7 @@ class CommentForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-    tags = TagField(required=False)
+    tags = forms.CharField(widget=TagWidget())  # Use TagWidget for the tags field
 
     class Meta:
         model = Post
