@@ -168,7 +168,21 @@ def search(request):
         posts = Post.objects.all()
     return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
 
-def posts_by_tag(request, tag_name):
-    tag = Tag.objects.get(name=tag_name)
-    posts = tag.post_set.all()
-    return render(request, 'blog/posts_by_tag.html', {'posts': posts, 'tag': tag})
+
+
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/posts_by_tag.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        # Get the tag from the URL
+        tag_slug = self.kwargs['tag_slug']
+        # Filter posts by the tag
+        return Post.objects.filter(tags__slug=tag_slug)
+
+    def get_context_data(self, **kwargs):
+        # Add the tag to the context
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs['tag_slug'])
+        return context

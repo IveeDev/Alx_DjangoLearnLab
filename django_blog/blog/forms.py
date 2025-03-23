@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Comment, Post, Tag
-from taggit.forms import TagField, TagWidget,
+from taggit.forms import TagField, TagWidget
 from django.forms import widgets 
 
 class RegisterForm(UserCreationForm):
