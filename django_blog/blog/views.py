@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserChangeForm
 from .forms import RegisterForm
-from .models import Profile, Post, Comment
+from .models import Profile, Post, Comment, Tag
 from .forms import CommentForm
 
 # Create your views here.
@@ -167,3 +167,8 @@ def search(request):
     else:
         posts = Post.objects.all()
     return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
+
+def posts_by_tag(request, tag_name):
+    tag = Tag.objects.get(name=tag_name)
+    posts = tag.post_set.all()
+    return render(request, 'blog/posts_by_tag.html', {'posts': posts, 'tag': tag})
