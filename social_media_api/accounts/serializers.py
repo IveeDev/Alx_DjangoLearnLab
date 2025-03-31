@@ -8,17 +8,16 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(max_length=150)  # serializers.CharField()
+    username = serializers.CharField(max_length=150) 
     bio = serializers.CharField(allow_blank=True, required=False)
-    profile_picture = serializers.ImageField(upload_to='profile_pics/images', blank=True, null=True) 
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers']
         
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(max_length=150)  # serializers.CharField()
-    email = serializers.CharField(max_length=255)  # serializers.CharField()
+    username = serializers.CharField(max_length=150)  
+    email = serializers.CharField(max_length=255)  
     password = serializers.CharField(write_only=True, style={'input_type': 'password'})
     class Meta:
         model = User
