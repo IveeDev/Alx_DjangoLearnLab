@@ -3,9 +3,9 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework import permissions
 from rest_framework.authtoken.models import Token
-from rest_framework.views import APIView
+from rest_framework import generics
 from django.contrib.auth import authenticate
 from .serializers import UserRegisterSerializer, UserProfileSerializer
 from django.contrib.auth import get_user_model
@@ -17,7 +17,7 @@ User = get_user_model()
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
@@ -26,8 +26,8 @@ class RegisterView(generics.CreateAPIView):
         return Response({'token': token.key, 'user': response.data})
 
 
-class LoginView(APIView):
-    permission_classes = [AllowAny]
+class LoginView(generics.GenericAPIView):
+    permission_classes = [permissions.AllowAny]
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer] 
     
     def post(self, request):
@@ -57,7 +57,7 @@ class LoginView(APIView):
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileView(generics.RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
     serializer_class = UserProfileSerializer
 
@@ -67,8 +67,8 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
     
     
 
-class FollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, pk=user_id)
         
@@ -79,8 +79,8 @@ class FollowUserView(APIView):
         return Response({"message": f"You are now following {user_to_follow.username}"}, status=status.HTTP_200_OK)
     
 
-class UnFollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+class UnFollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(CustomUser, pk=user_id)
