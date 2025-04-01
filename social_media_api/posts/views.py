@@ -32,7 +32,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if Like.objects.filter(user=request.user, post=post).exists():
             return Response({"error": "You have already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
         
-        like = Like.objects.get_or_create(user=user, post=post)
+        like = Like.objects.get_or_create(user=request.user, post=post)
         
         
         # Create Notification
