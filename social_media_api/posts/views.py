@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.viewsets import GenericViewSet
+from rest_framework import generics
+from rest_framework.mixins import ListModelMixin
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .serializers import PostSerializer, CommentSerializer
 from .models import Post, Comment
 
@@ -28,3 +31,14 @@ class CommentViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+        
+        
+class FeedViewSet(ListModelMixin, GenericViewSet):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+    
+    
+    def get_queryset(self):
+        user = self.request.user
+        following_users = user.following.all()
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')

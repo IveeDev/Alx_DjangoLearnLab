@@ -10,9 +10,11 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=150) 
     bio = serializers.CharField(allow_blank=True, required=False)
+    followers_count = serializers.IntegerField(source="followers.count", read_only=True)
+    following_count = serializers.IntegerField(source="following.count", read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers']
+        fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers_count', 'following_count']
         
 
 class UserRegisterSerializer(serializers.ModelSerializer):
