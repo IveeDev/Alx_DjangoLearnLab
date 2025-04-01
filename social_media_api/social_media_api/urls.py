@@ -33,5 +33,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls')),  # Account-related endpoints
     path('api/v1/', include('posts.urls')),  # Versioned API for posts
+    path('api/v1/', include('notifications.urls')),
     re_path(r'^api/v1/swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
