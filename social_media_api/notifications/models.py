@@ -12,7 +12,8 @@ class Notification(models.Model):
     object_id = models.PositiveIntegerField(null=True, blank=True)
     target = GenericForeignKey("content_type", "object_id")
     created_at = models.DateTimeField(default=now)
+    timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.actor} {self.verb} {self.target if self.target else ''}"
+        return f"{self.actor} {self.verb} {self.target} at {self.timestamp}"
