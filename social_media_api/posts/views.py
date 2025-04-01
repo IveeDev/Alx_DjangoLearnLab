@@ -29,17 +29,21 @@ class PostViewSet(viewsets.ModelViewSet):
         post = generics.get_object_or_404(Post, pk=pk)
         user = request.user
         
-        like, created = Like.objects.get_or_create(user=user, post=post)  # ✅ Prevents duplicate likes
-        if created:
-            # Create a notification for the post owner
-            Notification.objects.create(
-                recipient=post.user,  # Assuming post has a 'user' field (post owner)
-                actor=request.user,
+        if Like.objects.filter(user=user, post=post).exists():
+            return Response({"error": "You have already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        like = Like.objects.create(user=user, post=post)
+        
+        
+        # Create Notification
+        if post.author != user:
+            Notification.objects.create(  recipient=post.author,
+                actor=post.user,
                 verb="liked your post",
-                target=post
+                target=post 
             )
-            return Response({"message": "Post liked!"}, status=201)
-        return Response({"message": "You already liked this post."}, status=400)
+            
+            return Response(LikeSerializer(like).data, status=status.HTTP_201_CREATED)
         
     
     @action(detail=True, methods=["post"])
@@ -47,7 +51,7 @@ class PostViewSet(viewsets.ModelViewSet):
         post = generics.get_object_or_404(Post, pk=None)
         user = self.request.user
         
-        like = like.objects.filter(user=user, post=post)
+        like, created  = like.objects.get_or_create(user=user, post=post)
         if like:
             like.delete()
             return Response({"message": "Like removed."}, status=status.HTTP_200_OK)
