@@ -29,7 +29,7 @@ class PostViewSet(viewsets.ModelViewSet):
         post = generics.get_object_or_404(Post, pk=pk)
         user = request.user
         
-        if Like.objects.filter(user=user, post=post).exists():
+        if Like.objects.filter(user=request.user, post=post).exists():
             return Response({"error": "You have already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
         
         like = Like.objects.create(user=user, post=post)
@@ -49,9 +49,8 @@ class PostViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post"])
     def unlike(self, request, pk=None):
         post = generics.get_object_or_404(Post, pk=None)
-        user = self.request.user
         
-        like, created  = like.objects.get_or_create(user=user, post=post)
+        like, created  = like.objects.get_or_create(user=request.user, post=post)
         if like:
             like.delete()
             return Response({"message": "Like removed."}, status=status.HTTP_200_OK)
