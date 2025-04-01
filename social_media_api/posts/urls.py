@@ -4,7 +4,7 @@ from .views import PostViewSet, CommentViewSet, FeedViewSet
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, basename='post')
-router.register('feeds', FeedViewSet, basename='feeds')
+router.register('feed/', FeedViewSet, basename='feed')
 
 urlpatterns = [
     path('', include(router.urls)),
